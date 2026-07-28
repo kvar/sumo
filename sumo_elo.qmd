@@ -35,7 +35,7 @@ sumo_name_t   <- readRDS( "sumo_name_t.Rdata")
 For rankings and match forecasts for the latest tournament, go to [**this page**](sumo_matches.html)
 
 
-![](elo_yokozuna.png){fig-align="center" width=60%}
+![](sumo_images/elo_yokozuna.png){fig-align="center" width=60%}
 
 
 ## Introduction

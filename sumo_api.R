@@ -37,6 +37,7 @@ get_matches <- \( basho_id, day, division, refresh = F )
   torikumi <- matches_cache[[key]]
   if( refresh || is.null( torikumi ))
   {
+    Sys.sleep(0.25)
     qq       <- GET(paste0(base_url, "/api/basho/", basho_id, "/torikumi/", division, "/", day))
     torikumi <- fromJSON(rawToChar(qq$content))
     matches_cache[[key]] <<- torikumi
@@ -44,7 +45,6 @@ get_matches <- \( basho_id, day, division, refresh = F )
   
   torikumi  
 }
-
 
 get_basho_id <- \( year, month )
 {
@@ -69,6 +69,7 @@ prior_basho <- \( basho_id )
 
 basho_info <- \(basho_id)
 {
+#  Sys.sleep(0.25)
   response <- GET( glue("https://www.sumo-api.com/api/basho/{basho_id}" ))
   basho_data <- fromJSON(rawToChar(response$content))
   basho_data$startDate <- as_date( basho_data$startDate)
@@ -135,6 +136,7 @@ active_rikishi <- \()
   if( exists( "active_rikishi_cache"))
     return( active_rikishi_cache )
   
+#  Sys.sleep(0.25)
   qq  <- GET(paste0(base_url, "/api/rikishis" ))
   rr  <- fromJSON(rawToChar(qq$content))
   active_rikishi_cache <<- tibble( rr$records )
@@ -157,7 +159,7 @@ all_rikishi <- \(active=T)
   options = list()
   if( !active )
     options$intai = "true"
-
+ # Sys.sleep(0.25)
   qq  <- GET( paste0(base_url, "/api/rikishis", url_option_string(options )) )
   rr  <- fromJSON(rawToChar(qq$content))
   total <- rr$total
@@ -168,6 +170,7 @@ all_rikishi <- \(active=T)
   {
     options$skip = skip
     options$limit = 1000
+   # Sys.sleep(0.25)
     qq  <- GET(paste0(base_url, "/api/rikishis", url_option_string( options)))
     rr  <- fromJSON(rawToChar(qq$content))
     all_rikishi_cache <<- bind_rows( all_rikishi_cache, tibble( rr$records ))
@@ -194,10 +197,10 @@ basho_sumo_rank <- \(basho_id = current_basho())
   if( !exists( "basho_rikishi_ranks"))
     basho_rikishi_ranks <<- list()
 
-  cache <- basho_rikishi_ranks[[ basho_id ]]
+  cache <- basho_rikishi_ranks[[ basho_id ]]  
   if( !is.null( cache ))
     return( cache )
-  
+ # Sys.sleep(0.25)
   qq  <- GET(paste0(base_url, paste0( "/api/ranks?bashoId=", basho_id )))
   banzuke_rank  <- fromJSON(rawToChar(qq$content))
   

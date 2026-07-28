@@ -32,10 +32,10 @@ past_bashos <- map( years, \(year) map( months, \(month) get_basho_id( year, mon
 
 #  202005 canceled because of covid,  201103 canceled because of Fukushima 
 
+
 # refresh cache for current basho
 # this is to pick up data updates, such as match results from yesterday
 div_matches <- map( 1:min(15,max_day+1), \(day) map( divisions, \(div) get_matches( current_basho(), day, div, T )))
-saveRDS( matches_cache, "matches_cache.Rdata")
 
 makuuchi_matches <- map( 1:max_day, \(day) get_matches( current_basho(), day, "makuuchi" ))
 
@@ -55,6 +55,7 @@ saveRDS( faceoff_list, "faceoff_list.Rdata")
 
 #faceoff_list <- readRDS( "faceoff_list.Rdata" )
 
+saveRDS( matches_cache, "matches_cache.Rdata")
 
 current_elo <- tibble( 
   rikishiId = as.numeric(NULL), 
